@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { TypingEngineService } from '../../../core/services/typing-engine.service';
 import { TimeLimit } from '../../../core/models/typing.models';
 
@@ -25,9 +25,11 @@ import { TimeLimit } from '../../../core/models/typing.models';
 })
 export class ConfigBarComponent {
   engine = inject(TypingEngineService);
-  timeLimits: TimeLimit[] = [30, 60, 120];
+  timeLimits: TimeLimit[] = [1, 30, 60, 120];
+  timeLimitSelected = output<TimeLimit>();
 
   setTime(limit: TimeLimit): void {
     this.engine.setTimeLimit(limit);
+    this.timeLimitSelected.emit(limit);
   }
 }

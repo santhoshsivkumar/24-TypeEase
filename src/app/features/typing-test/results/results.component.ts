@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { TypingEngineService } from '../../../core/services/typing-engine.service';
+import { WpmChartComponent } from '../wpm-chart/wpm-chart.component';
 
 @Component({
   selector: 'app-results',
   standalone: true,
+  imports: [WpmChartComponent],
   template: `
     @if (engine.result(); as r) {
       <div class="results-wrapper">
@@ -54,6 +56,11 @@ import { TypingEngineService } from '../../../core/services/typing-engine.servic
             <button class="retry-btn" (click)="retry()">↺ Try again</button>
           </div>
         </div>
+
+        <app-wpm-chart
+          [history]="r.wpmHistory"
+          [timeLimit]="engine.state().timeLimit"
+        />
       </div>
     }
   `,

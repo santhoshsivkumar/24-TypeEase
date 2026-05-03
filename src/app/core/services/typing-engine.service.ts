@@ -5,6 +5,7 @@ import {
   TimeLimit,
   TypingState,
   WordState,
+  WpmSnapshot,
 } from '../models/typing.models';
 import { WordGeneratorService } from './word-generator.service';
 import { StatsService } from './stats.service';
@@ -15,8 +16,11 @@ const MAX_EXTRA_CHARS = 10;
 @Injectable({ providedIn: 'root' })
 export class TypingEngineService {
   private stats = new StatsService();
+  private static readonly STORAGE_KEY = 'typelite-time-limit';
 
-  private _state = signal<TypingState>(this.createInitialState(60));
+  private _state = signal<TypingState>(
+    this.createInitialState(this.savedTimeLimit()),
+  );
   readonly state = this._state.asReadonly();
 
   readonly currentWord = computed(
@@ -36,6 +40,10 @@ export class TypingEngineService {
   private _capsLock = signal<boolean>(false);
   readonly capsLock = this._capsLock.asReadonly();
 
+  private _wpmSnapshots: WpmSnapshot[] = [];
+  private _errorsThisSecond = 0;
+  private _modificationsThisSecond = 0;
+
   constructor(private wordGen: WordGeneratorService) {}
 
   private sentenceMode = false;
@@ -53,6 +61,9 @@ export class TypingEngineService {
     this.stopTimer();
     this._result.set(null);
     this._timeRemaining.set(timeLimit);
+    this._wpmSnapshots = [];
+    this._errorsThisSecond = 0;
+    this._modificationsThisSecond = 0;
     const words = this.sentenceMode
       ? this.wordGen.generateSentences(WORDS_PER_BATCH)
       : this.wordGen.generate(WORDS_PER_BATCH);
@@ -60,7 +71,16 @@ export class TypingEngineService {
   }
 
   setTimeLimit(limit: TimeLimit): void {
-    this.reset(limit);
+    localStorage.setItem(TypingEngineService.STORAGE_KEY, String(limit));
+    this.stopTimer();
+    this._result.set(null);
+    this._timeRemaining.set(limit);
+    this._wpmSnapshots = [];
+    this._errorsThisSecond = 0;
+    this._modificationsThisSecond = 0;
+    // Reuse existing words — only reset progress and time limit
+    const existingWords = this._state().words.map((w) => w.original);
+    this._state.set(this.buildState(existingWords, limit));
   }
 
   handleKeydown(event: KeyboardEvent): void {
@@ -77,7 +97,11 @@ export class TypingEngineService {
 
     if (event.key === 'Backspace') {
       event.preventDefault();
-      this.handleBackspace();
+      if (event.ctrlKey) {
+        this.handleCtrlBackspace();
+      } else {
+        this.handleBackspace();
+      }
       return;
     }
 
@@ -95,6 +119,13 @@ export class TypingEngineService {
 
     if (s.status === 'idle') this.startTimer();
 
+    // Track errors for per-second WPM chart
+    const currentWord = s.words[s.currentWordIndex];
+    const isCorrectKey =
+      s.currentCharIndex < currentWord.original.length &&
+      currentWord.chars[s.currentCharIndex]?.expected === char;
+    if (!isCorrectKey) this._errorsThisSecond++;
+
     this._state.update((prev) => {
       const words = prev.words.map((w, wi) => {
         if (wi !== prev.currentWordIndex) return w;
@@ -104,7 +135,7 @@ export class TypingEngineService {
         // Extra characters beyond word length
         if (idx >= w.original.length) {
           if (idx - w.original.length >= MAX_EXTRA_CHARS) return w;
-          const extraChar: CharState = { expected: '', status: 'extra' };
+          const extraChar: CharState = { expected: char, status: 'extra' };
           chars.push(extraChar);
         } else {
           const isCorrect = chars[idx].expected === char;
@@ -146,6 +177,7 @@ export class TypingEngineService {
   }
 
   private handleBackspace(): void {
+    if (this._state().inputBuffer.length > 0) this._modificationsThisSecond++;
     this._state.update((prev) => {
       if (prev.inputBuffer.length === 0) return prev; // blocked at word start
 
@@ -171,6 +203,22 @@ export class TypingEngineService {
         currentCharIndex: newCharIndex,
         inputBuffer: prev.inputBuffer.slice(0, -1),
       };
+    });
+  }
+
+  private handleCtrlBackspace(): void {
+    if (this._state().inputBuffer.length > 0) this._modificationsThisSecond++;
+    this._state.update((prev) => {
+      if (prev.inputBuffer.length === 0) return prev;
+      const words = prev.words.map((w, wi) => {
+        if (wi !== prev.currentWordIndex) return w;
+        const chars = w.chars.slice(0, w.original.length).map((c, ci) => ({
+          ...c,
+          status: (ci === 0 ? 'active' : 'pending') as CharState['status'],
+        }));
+        return { ...w, chars };
+      });
+      return { ...prev, words, currentCharIndex: 0, inputBuffer: '' };
     });
   }
 
@@ -225,14 +273,32 @@ export class TypingEngineService {
       startTime: Date.now(),
     }));
     this.timerInterval = setInterval(() => {
-      this._timeRemaining.update((t) => {
-        if (t <= 1) {
-          this.finishTest();
-          return 0;
-        }
-        return t - 1;
-      });
+      const t = this._timeRemaining();
+      if (t <= 1) {
+        this.finishTest();
+        return;
+      }
+      this._timeRemaining.set(t - 1);
+      const elapsed = this._state().timeLimit - (t - 1);
+      this.takeWpmSnapshot(elapsed);
     }, 1000);
+  }
+
+  private takeWpmSnapshot(elapsed: number): void {
+    const s = this._state();
+    const elapsedMinutes = elapsed / 60;
+    const wpm =
+      elapsedMinutes > 0
+        ? Math.round(s.correctKeystrokes / 5 / elapsedMinutes)
+        : 0;
+    this._wpmSnapshots.push({
+      second: elapsed,
+      wpm,
+      errors: this._errorsThisSecond,
+      modifications: this._modificationsThisSecond,
+    });
+    this._errorsThisSecond = 0;
+    this._modificationsThisSecond = 0;
   }
 
   private stopTimer(): void {
@@ -246,12 +312,20 @@ export class TypingEngineService {
     this.stopTimer();
     const s = this._state();
     const elapsed = s.timeLimit - this._timeRemaining();
-    const result = this.stats.calculate(s, elapsed);
+    const result = this.stats.calculate(s, elapsed, this._wpmSnapshots);
     this._result.set(result);
     this._state.update((prev) => ({ ...prev, status: 'finished' }));
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
+
+  private savedTimeLimit(): TimeLimit {
+    const valid: TimeLimit[] = [1, 30, 60, 120];
+    const stored = Number(
+      localStorage.getItem(TypingEngineService.STORAGE_KEY),
+    );
+    return (valid.includes(stored as TimeLimit) ? stored : 60) as TimeLimit;
+  }
 
   private createInitialState(timeLimit: TimeLimit): TypingState {
     return {

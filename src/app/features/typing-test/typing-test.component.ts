@@ -36,7 +36,7 @@ import { HeaderComponent } from './header/header.component';
         <div class="body-row">
           <app-sidebar />
           <div class="main" (click)="focusInput()">
-            <app-config-bar />
+            <app-config-bar (timeLimitSelected)="clearInput()" />
             @if (engine.capsLock()) {
               <div class="caps-warning">Caps Lock is on</div>
             }
@@ -105,9 +105,10 @@ export class TypingTestComponent implements OnInit {
         return;
       }
       const { wordListUrl, sentences } = MODE_CONFIG[mode];
-      this.engine
-        .init(wordListUrl, sentences)
-        .then(() => setTimeout(() => this.focusInput(), 50));
+      this.engine.init(wordListUrl, sentences).then(() => {
+        if (this.hiddenInput) this.hiddenInput.nativeElement.value = '';
+        setTimeout(() => this.focusInput(), 50);
+      });
     });
   }
 
@@ -121,10 +122,16 @@ export class TypingTestComponent implements OnInit {
     this.hiddenInput?.nativeElement.focus();
   }
 
+  clearInput(): void {
+    this.blurred = false;
+    if (this.hiddenInput) this.hiddenInput.nativeElement.value = '';
+    setTimeout(() => this.focusInput(), 30);
+  }
+
   reset(event: MouseEvent): void {
     event.stopPropagation();
     this.engine.reset(this.engine.state().timeLimit);
-    setTimeout(() => this.focusInput(), 30);
+    this.clearInput();
   }
 
   onKeydown(event: KeyboardEvent): void {

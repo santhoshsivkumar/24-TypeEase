@@ -19,6 +19,7 @@ import { TypingEngineService } from '../../../core/services/typing-engine.servic
             [class.active]="word.status === 'active'"
             [class.correct]="word.status === 'correct'"
             [class.incorrect]="word.status === 'incorrect'"
+            [class.has-error]="word.status === 'active' && wordHasError(word)"
             [attr.data-index]="$index"
           >
             @for (char of word.chars; track $index) {
@@ -33,6 +34,10 @@ import { TypingEngineService } from '../../../core/services/typing-engine.servic
 })
 export class WordDisplayComponent implements AfterViewChecked {
   engine = inject(TypingEngineService);
+
+  wordHasError(word: { chars: { status: string }[] }): boolean {
+    return word.chars.some(c => c.status === 'incorrect' || c.status === 'extra');
+  }
 
   @ViewChild('displayEl') displayEl!: ElementRef<HTMLDivElement>;
 

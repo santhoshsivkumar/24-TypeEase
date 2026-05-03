@@ -1,6 +1,6 @@
 ﻿.word-display {
   /* Show exactly 2 rows */
-  height: calc(2 * 2.5rem);
+  height: calc(2 * 2rem);
   overflow: hidden;
   width: 100%;
 }
@@ -17,7 +17,7 @@
 .word {
   display: inline-flex;
   align-items: center;
-  height: 2.5rem;
+  height: 2rem;
   padding: 0 3px;
   margin-right: calc(0.45em - 6px);
   position: relative;
@@ -27,21 +27,14 @@
   font-weight: 500;
 }
 
-/* Active word: gray box + real-time char colors */
+/* Active word: gray box only, no char-level coloring */
 .word.active {
   background: var(--word-active-bg);
 }
 
-.word.active .char.correct {
-  color: var(--correct);
-}
-
-.word.active .char.incorrect {
-  color: var(--error-fg);
-}
-
-.word.active .char.extra {
-  color: var(--extra);
+/* Active word with a wrong char: red background */
+.word.active.has-error {
+  background: var(--word-error-bg, red);
 }
 
 /* Completed correct word: all chars green */

@@ -1,0 +1,79 @@
+:host {
+  display: flex;
+  flex: 0 0 600px;
+  width: 600px;
+}
+
+.chart-card {
+  background: var(--surface-1);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ── Header ── */
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: var(--surface-2);
+  border-bottom: 2px solid var(--surface-border);
+}
+
+.chart-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ── Legend ── */
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.wpm-dot {
+  background: #7c5cbf;
+}
+
+.error-dot {
+  background: #dc3545;
+}
+
+.mod-dot {
+  background: #ffa500;
+}
+
+/* ── Canvas ── */
+.chart-body {
+  flex: 1;
+  padding: 1rem 1rem 0.75rem;
+  min-height: 0;
+  position: relative;
+}
+
+.chart-body canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

@@ -1,10 +1,17 @@
 .results-wrapper {
-  /* gap in .main handles spacing */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .result-card {
-  display: inline-block;
-  min-width: 340px;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 340px;
+  width: 340px;
   background: var(--surface-1);
   border: 1px solid var(--surface-border);
   border-radius: 6px;

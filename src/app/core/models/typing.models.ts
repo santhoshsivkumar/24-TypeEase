@@ -1,3 +1,10 @@
+export interface WpmSnapshot {
+  second: number;
+  wpm: number;
+  errors: number;
+  modifications: number;
+}
+
 export type CharStatus =
   | 'pending'
   | 'active'
@@ -6,7 +13,7 @@ export type CharStatus =
   | 'extra';
 export type WordStatus = 'pending' | 'active' | 'correct' | 'incorrect';
 export type TestStatus = 'idle' | 'running' | 'finished';
-export type TimeLimit = 30 | 60 | 120;
+export type TimeLimit = 1 | 30 | 60 | 120;
 
 export interface CharState {
   expected: string;
@@ -42,4 +49,5 @@ export interface TestResult {
   correctKeystrokes: number;
   incorrectKeystrokes: number;
   totalKeystrokes: number;
+  wpmHistory: WpmSnapshot[];
 }

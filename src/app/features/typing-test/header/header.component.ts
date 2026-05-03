@@ -11,7 +11,7 @@ const LANGUAGES = [{ code: 'en', label: 'English' }];
       <div class="header-top">
         <div class="logo">
           <span class="logo-icon">⌨</span>
-          <span class="logo-text"><strong>TYPE</strong>Lite</span>
+          <span class="logo-text"><strong>Type</strong>Lite</span>
         </div>
         <span class="tagline">Improve your Typing Speed</span>
         <button

@@ -1,7 +1,16 @@
-import { TestResult, TypingState, WordState } from '../models/typing.models';
+import {
+  TestResult,
+  TypingState,
+  WpmSnapshot,
+  WordState,
+} from '../models/typing.models';
 
 export class StatsService {
-  calculate(state: TypingState, timeElapsed: number): TestResult {
+  calculate(
+    state: TypingState,
+    timeElapsed: number,
+    wpmHistory: WpmSnapshot[] = [],
+  ): TestResult {
     const elapsedMinutes = timeElapsed / 60;
 
     const grossWpm =
@@ -17,7 +26,7 @@ export class StatsService {
       0,
       elapsedMinutes > 0
         ? Math.round(grossWpm - incorrectWords / elapsedMinutes)
-        : 0
+        : 0,
     );
 
     const accuracy =
@@ -40,6 +49,7 @@ export class StatsService {
       correctKeystrokes: state.correctKeystrokes,
       incorrectKeystrokes: state.totalKeystrokes - state.correctKeystrokes,
       totalKeystrokes: state.totalKeystrokes,
+      wpmHistory,
     };
   }
 }
