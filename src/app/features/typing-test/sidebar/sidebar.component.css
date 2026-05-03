@@ -2,7 +2,6 @@
   width: 220px;
   flex-shrink: 0;
   background: var(--surface-1);
-  border: 1px solid var(--surface-border);
   border-radius: 6px;
   display: flex;
   flex-direction: column;

@@ -6,7 +6,6 @@
 
 .chart-card {
   background: var(--surface-1);
-  border: 1px solid var(--surface-border);
   border-radius: 6px;
   overflow: hidden;
   display: flex;
