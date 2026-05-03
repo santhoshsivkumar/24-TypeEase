@@ -25,7 +25,7 @@ import { TimeLimit } from '../../../core/models/typing.models';
 })
 export class ConfigBarComponent {
   engine = inject(TypingEngineService);
-  timeLimits: TimeLimit[] = [1, 30, 60, 120];
+  timeLimits: TimeLimit[] = [30, 60, 120];
   timeLimitSelected = output<TimeLimit>();
 
   setTime(limit: TimeLimit): void {

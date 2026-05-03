@@ -1,32 +1,39 @@
-# 03TypingTest
+# ⌨ TypeLite
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.22.
+A minimalist, fast typing speed test built with Angular.
 
-## Development server
+**Live demo:** [typelite.netlify.app](https://typelite.netlify.app)
 
-To start a local development server, run:
+---
+
+## Features
+
+- **WPM tracking** — real-time words-per-minute measurement
+- **Accuracy & keystrokes** — correct / incorrect keystroke breakdown
+- **Multiple time limits** — 1s, 30s, 60s, 120s (persisted in localStorage)
+- **WPM chart** — per-second WPM, error and modification graph
+- **Dark / light theme** — toggle with one click, persisted
+- **Caps Lock warning**
+- **Ctrl+Backspace** — clears the current word instantly
+- **Top 200 / Top 1000 word modes**
+
+---
+
+## Getting started
 
 ```bash
-ng serve
+npm install
+npm start        # dev server at http://localhost:4200
+npm run build    # production build → dist/
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Tech stack
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
+- [Angular 19](https://angular.dev) (standalone components, signals)
+- [Chart.js](https://www.chartjs.org) for the WPM graph
+- Google Fonts — Open Sans
 
 To build the project run:
 

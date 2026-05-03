@@ -34,7 +34,7 @@
 .time-btn.active {
   background: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--primary-text);
 }
 
 .restart-hint {

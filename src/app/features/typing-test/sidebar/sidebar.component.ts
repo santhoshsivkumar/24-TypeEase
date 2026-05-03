@@ -22,7 +22,9 @@ interface NavItem {
           class="nav-item"
           [class.active]="item.mode === modeService.mode()"
           [class.disabled]="!item.mode"
-          (click)="item.mode && select(item.mode)"
+          (click)="
+            item.mode && item.mode !== modeService.mode() && select(item.mode)
+          "
         >
           <span class="nav-icon">{{ item.icon }}</span>
           <div class="nav-text">

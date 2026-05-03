@@ -23,7 +23,7 @@
 
 .nav-item.active {
   background: var(--primary);
-  color: #ffffff;
+  color: var(--primary-text);
 }
 
 .nav-item.disabled {

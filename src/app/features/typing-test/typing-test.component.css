@@ -45,6 +45,7 @@
   flex-direction: column;
   border-radius: 6px;
   overflow: hidden;
+  width: 75%; /* full-screen laptop */
 }
 
 /* ── Word display box ── */
@@ -113,7 +114,7 @@
   border: none;
   border-radius: 4px;
   background: var(--reset-bg);
-  color: #ffffff;
+  color: var(--primary-text);
   font-size: 1.1rem;
   cursor: pointer;
   display: flex;
@@ -149,12 +150,20 @@
   .layout {
     padding: 1rem;
   }
+
+  .typing-area {
+    width: 90%;
+  }
 }
 
 /* Mobile (≤640px): tighten spacing, keep sidebar vertical */
 @media (max-width: 640px) {
   .layout {
     padding: 0.75rem 0.5rem;
+  }
+
+  .typing-area {
+    width: 100%;
   }
 
   .typing-input {

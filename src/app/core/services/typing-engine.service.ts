@@ -47,12 +47,21 @@ export class TypingEngineService {
   constructor(private wordGen: WordGeneratorService) {}
 
   private sentenceMode = false;
+  private loadedWordListUrl = '';
 
   async init(
     wordListUrl = 'words/en-200.json',
     sentences = false,
   ): Promise<void> {
+    if (
+      wordListUrl === this.loadedWordListUrl &&
+      sentences === this.sentenceMode
+    ) {
+      this.reset(this._state().timeLimit);
+      return;
+    }
     this.sentenceMode = sentences;
+    this.loadedWordListUrl = wordListUrl;
     await this.wordGen.load(wordListUrl);
     this.reset(this._state().timeLimit);
   }
@@ -320,11 +329,11 @@ export class TypingEngineService {
   // ── Helpers ────────────────────────────────────────────────────────────────
 
   private savedTimeLimit(): TimeLimit {
-    const valid: TimeLimit[] = [1, 30, 60, 120];
+    const valid: TimeLimit[] = [30, 60, 120];
     const stored = Number(
       localStorage.getItem(TypingEngineService.STORAGE_KEY),
     );
-    return (valid.includes(stored as TimeLimit) ? stored : 60) as TimeLimit;
+    return (valid.includes(stored as TimeLimit) ? stored : 30) as TimeLimit;
   }
 
   private createInitialState(timeLimit: TimeLimit): TypingState {

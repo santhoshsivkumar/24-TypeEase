@@ -23,14 +23,14 @@
   --text-secondary: #aaaaaa;
   --text-muted: #666666;
 
-  /* Brand blue (Bootstrap primary) */
-  --primary: #0d6efd;
-  --primary-hover: #0b5ed7;
-  --primary-text: #ffffff;
+  /* Brand amber */
+  --primary: #f5a623;
+  --primary-hover: #e09415;
+  --primary-text: #1a1a2e;
 
   /* Accent / warning */
-  --accent: #ffc107;
-  --warning: #ffc107;
+  --accent: #f5a623;
+  --warning: #f5a623;
 
   /* Typing feedback */
   --correct: #198754;
@@ -40,8 +40,8 @@
   --error: #dc3545;
 
   /* Nav */
-  --nav-active-bg: #0d6efd;
-  --nav-active-text: #ffffff;
+  --nav-active-bg: #f5a623;
+  --nav-active-text: #1a1a2e;
   --nav-hover-bg: #2c2c2c;
 
   /* Word display box */
@@ -57,8 +57,8 @@
   --input-border: #757575;
   --input-placeholder: #9e9e9e;
   --timer-bg: #343a40;
-  --reset-bg: #0d6efd;
-  --reset-hover: #0b5ed7;
+  --reset-bg: #f5a623;
+  --reset-hover: #e09415;
 }
 
 [data-theme="light"] {
@@ -72,12 +72,12 @@
   --text-secondary: #6c757d;
   --text-muted: #adb5bd;
 
-  --primary: #0d6efd;
-  --primary-hover: #0b5ed7;
-  --primary-text: #ffffff;
+  --primary: #f5a623;
+  --primary-hover: #e09415;
+  --primary-text: #1a1a2e;
 
-  --accent: #fd7e14;
-  --warning: #fd7e14;
+  --accent: #f5a623;
+  --warning: #f5a623;
 
   --correct: #198754;
   --error-fg: #dc3545;
@@ -85,8 +85,8 @@
   --extra: #842029;
   --error: #dc3545;
 
-  --nav-active-bg: #0d6efd;
-  --nav-active-text: #ffffff;
+  --nav-active-bg: #f5a623;
+  --nav-active-text: #1a1a2e;
   --nav-hover-bg: #e2e6ea;
 
   --words-box-bg: #ffffff;
@@ -100,8 +100,8 @@
   --input-border: #ced4da;
   --input-placeholder: #adb5bd;
   --timer-bg: #343a40;
-  --reset-bg: #0d6efd;
-  --reset-hover: #0b5ed7;
+  --reset-bg: #f5a623;
+  --reset-hover: #e09415;
 }
 
 html,
