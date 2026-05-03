@@ -1,0 +1,65 @@
+.config-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+}
+
+.time-options {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
+
+.time-btn {
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8125rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.time-btn:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.time-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.restart-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.restart-hint kbd {
+  font-family: inherit;
+  font-size: 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 0.05rem 0.35rem;
+  background: var(--surface-2);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .restart-hint {
+    display: none;
+  }
+
+  .config-bar {
+    gap: 0.5rem;
+    padding: 0.4rem 0.625rem;
+  }
+}

@@ -1,0 +1,10 @@
+.timer {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  user-select: none;
+}
+

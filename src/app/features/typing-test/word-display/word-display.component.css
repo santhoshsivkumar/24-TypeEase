@@ -1,0 +1,64 @@
+﻿.word-display {
+  /* Show exactly 2 rows */
+  height: calc(2 * 2.5rem);
+  overflow: hidden;
+  width: 100%;
+}
+
+.words-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  position: relative;
+  user-select: none;
+  transition: transform 0.18s ease;
+}
+
+.word {
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  padding: 0 3px;
+  margin-right: calc(0.45em - 6px);
+  position: relative;
+  white-space: nowrap;
+  border-radius: 3px;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+/* Active word: gray box + real-time char colors */
+.word.active {
+  background: var(--word-active-bg);
+}
+
+.word.active .char.correct {
+  color: var(--correct);
+}
+
+.word.active .char.incorrect {
+  color: var(--error-fg);
+}
+
+.word.active .char.extra {
+  color: var(--extra);
+}
+
+/* Completed correct word: all chars green */
+.word.correct .char {
+  color: var(--correct);
+}
+
+/* Completed incorrect word: whole word red, no underline */
+.word.incorrect .char {
+  color: var(--error-fg);
+}
+
+.word.incorrect .char.correct {
+  color: var(--error-fg);
+}
+
+/* Pending (not yet reached) words: muted */
+.word.pending .char {
+  color: var(--text-muted);
+}

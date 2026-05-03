@@ -1,0 +1,146 @@
+.results-wrapper {
+  /* gap in .main handles spacing */
+}
+
+.result-card {
+  display: inline-block;
+  min-width: 340px;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* ── Tab header ── */
+.card-tabs {
+  display: flex;
+  background: var(--surface-2);
+  border-bottom: 2px solid var(--surface-border);
+  padding: 0 1rem;
+}
+
+.tab {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.6rem 0.5rem;
+  cursor: default;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--primary);
+}
+
+/* ── WPM Hero ── */
+.wpm-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.wpm-number {
+  font-size: 3.75rem;
+  font-weight: 700;
+  color: var(--correct);
+  line-height: 1;
+}
+
+.wpm-label {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--correct);
+}
+
+.wpm-sub {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+/* ── Stats table ── */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stats-table tbody tr {
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.stats-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.stats-table td {
+  padding: 0.7rem 1rem;
+  font-size: 0.9375rem;
+}
+
+.stat-name {
+  color: var(--text-primary);
+  width: 50%;
+  font-weight: 400;
+}
+
+.stat-breakdown {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  text-align: right;
+  padding-right: 0.25rem;
+}
+
+.stat-value {
+  text-align: right;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-size: 1rem;
+}
+
+.correct-ks {
+  color: var(--correct);
+}
+.wrong-ks {
+  color: var(--error-fg);
+}
+.correct-val {
+  color: var(--correct);
+  font-weight: 700;
+}
+.wrong-val {
+  color: var(--error-fg);
+  font-weight: 700;
+}
+
+/* ── Footer ── */
+.card-footer {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--surface-border);
+  background: var(--surface-2);
+}
+
+.retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.45rem 1.25rem;
+  background: var(--primary);
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.retry-btn:hover {
+  background: var(--primary-hover);
+}
