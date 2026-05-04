@@ -40,6 +40,9 @@ export class TypingEngineService {
   private _capsLock = signal<boolean>(false);
   readonly capsLock = this._capsLock.asReadonly();
 
+  private _ready = signal<boolean>(false);
+  readonly ready = this._ready.asReadonly();
+
   private _wpmSnapshots: WpmSnapshot[] = [];
   private _errorsThisSecond = 0;
   private _modificationsThisSecond = 0;
@@ -64,6 +67,7 @@ export class TypingEngineService {
     this.loadedWordListUrl = wordListUrl;
     await this.wordGen.load(wordListUrl);
     this.reset(this._state().timeLimit);
+    this._ready.set(true);
   }
 
   reset(timeLimit: TimeLimit = 60): void {

@@ -9,7 +9,7 @@ interface NavItem {
   icon: string;
   label: string;
   sublabel: string;
-  mode: AppMode | null;
+  mode: AppMode;
 }
 
 @Component({
@@ -21,10 +21,7 @@ interface NavItem {
         <div
           class="nav-item"
           [class.active]="item.mode === modeService.mode()"
-          [class.disabled]="!item.mode"
-          (click)="
-            item.mode && item.mode !== modeService.mode() && select(item.mode)
-          "
+          (click)="item.mode !== modeService.mode() && select(item.mode)"
         >
           <span class="nav-icon">{{ item.icon }}</span>
           <div class="nav-text">
@@ -53,30 +50,10 @@ export class SidebarComponent {
       sublabel: 'Top 1000 words',
       mode: 'top1000',
     },
-    {
-      icon: '⚙',
-      label: 'Custom Typing Test',
-      sublabel: 'Create your own!',
-      mode: null,
-    },
-    {
-      icon: '👥',
-      label: 'Multiplayer',
-      sublabel: 'Play against others',
-      mode: null,
-    },
-    {
-      icon: '🏆',
-      label: 'Typing Competition',
-      sublabel: 'Who types the fastest?',
-      mode: null,
-    },
-    {
-      icon: '📄',
-      label: 'Text Practice',
-      sublabel: 'Practice your own text',
-      mode: null,
-    },
+    { icon: '⚙', label: 'Custom Typing Test', sublabel: 'Create your own!', mode: 'custom' },
+    { icon: '👥', label: 'Multiplayer', sublabel: 'Play against others', mode: 'multiplayer' },
+    { icon: '🏆', label: 'Typing Competition', sublabel: 'Who types the fastest?', mode: 'competition' },
+    { icon: '📄', label: 'Text Practice', sublabel: 'Practice your own text', mode: 'textpractice' },
   ];
 
   select(mode: AppMode): void {

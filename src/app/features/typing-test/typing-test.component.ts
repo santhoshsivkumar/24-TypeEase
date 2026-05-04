@@ -1,15 +1,10 @@
-﻿import {
-  Component,
-  inject,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  effect,
-} from '@angular/core';
+﻿import { Component, inject, OnInit, ElementRef, ViewChild, effect, computed, untracked } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { TypingEngineService } from '../../core/services/typing-engine.service';
 import {
   AppModeService,
   MODE_CONFIG,
+  COMING_SOON_MODES,
 } from '../../core/services/app-mode.service';
 import { ConfigBarComponent } from './config-bar/config-bar.component';
 import { WordDisplayComponent } from './word-display/word-display.component';
@@ -22,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
   selector: 'app-typing-test',
   standalone: true,
   imports: [
+    NgIf,
     ConfigBarComponent,
     WordDisplayComponent,
     TimerComponent,
@@ -36,11 +32,17 @@ import { HeaderComponent } from './header/header.component';
         <div class="body-row">
           <app-sidebar />
           <div class="main" (click)="focusInput()">
-            <app-config-bar (timeLimitSelected)="clearInput()" />
-            @if (engine.capsLock()) {
+            <div class="coming-soon" [hidden]="!isComingSoon()">
+              <div class="coming-soon-icon">🚧</div>
+              <h2 class="coming-soon-title">{{ currentModeLabel() }} — Coming Soon!</h2>
+              <p class="coming-soon-msg">We're working hard on this feature. Stay tuned — it'll be worth the wait!</p>
+            </div>
+            <ng-container *ngIf="true">
+            <app-config-bar [hidden]="isComingSoon() || !engine.ready()" (timeLimitSelected)="clearInput()" />
+            @if (engine.capsLock() && !isComingSoon()) {
               <div class="caps-warning">Caps Lock is on</div>
             }
-            <div class="typing-area">
+            <div class="typing-area" [hidden]="isComingSoon() || !engine.ready()">
               <div class="words-box">
                 <app-word-display />
               </div>
@@ -79,7 +81,8 @@ import { HeaderComponent } from './header/header.component';
                 </div>
               }
             </div>
-            <app-results />
+            <app-results [hidden]="isComingSoon()" />
+            </ng-container>
           </div>
         </div>
       </div>
@@ -95,19 +98,25 @@ export class TypingTestComponent implements OnInit {
 
   blurred = false;
 
+  isComingSoon = computed(() => COMING_SOON_MODES.includes(this.modeService.mode()));
+  currentModeLabel = computed(() => MODE_CONFIG[this.modeService.mode()].label);
+
   constructor() {
-    // Re-init engine whenever mode changes (skips first run — ngOnInit handles that)
     let first = true;
     effect(() => {
-      const mode = this.modeService.mode();
-      if (first) {
-        first = false;
-        return;
-      }
-      const { wordListUrl, sentences } = MODE_CONFIG[mode];
-      this.engine.init(wordListUrl, sentences).then(() => {
-        if (this.hiddenInput) this.hiddenInput.nativeElement.value = '';
-        setTimeout(() => this.focusInput(), 50);
+      const mode = this.modeService.mode(); // only this signal is tracked
+      if (first) { first = false; return; }
+
+      untracked(() => {
+        if (COMING_SOON_MODES.includes(mode)) {
+          this.engine.reset(this.engine.state().timeLimit);
+          return;
+        }
+        const { wordListUrl, sentences } = MODE_CONFIG[mode];
+        this.engine.init(wordListUrl, sentences).then(() => {
+          if (this.hiddenInput) this.hiddenInput.nativeElement.value = '';
+          setTimeout(() => this.focusInput(), 50);
+        });
       });
     });
   }

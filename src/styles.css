@@ -7,6 +7,11 @@
   padding: 0;
 }
 
+/* Ensure [hidden] always wins over component display rules */
+[hidden] {
+  display: none !important;
+}
+
 /* ── Design tokens ── */
 :root,
 [data-theme="dark"] {
@@ -53,7 +58,7 @@
 
   /* Input bar */
   --input-bar-bg: #2a2a2a;
-  --input-bg: #ffffff;
+  --input-bg: #1e1e1e;
   --input-fg: #212121;
   --input-border: #757575;
   --input-placeholder: #9e9e9e;
@@ -94,10 +99,10 @@
   --words-box-bg: #ffffff;
   --words-box-border: #dee2e6;
   --words-box-text: #212529;
-  --word-active-bg: #f1f1f1;
+  --word-active-bg: #eaeaea;
 
   --input-bar-bg: #ffffff;
-  --input-bg: #ffffff;
+  --input-bg: #f6f6f6;
   --input-fg: #212529;
   --input-border: #ced4da;
   --input-placeholder: #adb5bd;

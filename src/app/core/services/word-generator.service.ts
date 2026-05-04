@@ -5,11 +5,17 @@ import { firstValueFrom } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class WordGeneratorService {
   private pool: string[] = [];
+  private cache = new Map<string, string[]>();
 
   constructor(private http: HttpClient) {}
 
   async load(url = 'words/en-200.json'): Promise<void> {
+    if (this.cache.has(url)) {
+      this.pool = this.cache.get(url)!;
+      return;
+    }
     const words = await firstValueFrom(this.http.get<string[]>(url));
+    this.cache.set(url, words);
     this.pool = words;
   }
 

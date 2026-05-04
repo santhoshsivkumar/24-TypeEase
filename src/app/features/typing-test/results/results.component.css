@@ -37,7 +37,6 @@
 
 .tab.active {
   color: var(--text-primary);
-  border-bottom-color: var(--primary);
 }
 
 /* ── WPM Hero ── */

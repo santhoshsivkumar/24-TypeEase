@@ -1,6 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 
-export type AppMode = 'top200' | 'top1000';
+export type AppMode = 'top200' | 'top1000' | 'custom' | 'multiplayer' | 'competition' | 'textpractice';
+
+export const COMING_SOON_MODES: AppMode[] = ['custom', 'multiplayer', 'competition', 'textpractice'];
 
 export const MODE_CONFIG: Record<
   AppMode,
@@ -16,6 +18,10 @@ export const MODE_CONFIG: Record<
     wordListUrl: 'words/en-1000.json',
     sentences: true,
   },
+  custom: { label: 'Custom Typing Test', wordListUrl: '', sentences: false },
+  multiplayer: { label: 'Multiplayer', wordListUrl: '', sentences: false },
+  competition: { label: 'Typing Competition', wordListUrl: '', sentences: false },
+  textpractice: { label: 'Text Practice', wordListUrl: '', sentences: false },
 };
 
 @Injectable({ providedIn: 'root' })
