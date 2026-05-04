@@ -47,6 +47,10 @@ const LANGUAGES = [{ code: 'en', label: 'English' }];
             }
           </span>
         </span>
+        <a class="attribution" href="https://10fastfingers.com" target="_blank" rel="noopener" title="Inspired by TenFastFingers">
+          <span class="tff-label">Inspired by</span>
+          <img class="tff-logo" src="10 fastfingers logo.PNG" alt="TenFastFingers" />
+        </a>
       </div>
     </header>
   `,

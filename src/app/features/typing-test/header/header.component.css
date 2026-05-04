@@ -58,11 +58,14 @@
 
 /* ── Sub row ── */
 .header-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: var(--surface-2);
   padding: 0.3rem 1.25rem;
   border-top: 1px solid var(--surface-border);
   border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .lang-trigger {
@@ -126,6 +129,37 @@
 .lang-option.selected {
   color: var(--primary);
   font-weight: 600;
+}
+
+.attribution {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.tff-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  margin-bottom: -3px;
+}
+
+.tff-logo {
+height: 18px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    opacity: 0.9;
+    transition: opacity 0.15s;
+    background: #2a2a2a;
+    border-radius: 3px;
+     padding: 2px 1px;
+}
+
+.attribution:hover .tff-logo {
+  opacity: 1;
 }
 
 /* ── Responsive ── */
