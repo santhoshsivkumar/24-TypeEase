@@ -119,6 +119,16 @@ export class TypingTestComponent implements OnInit {
         });
       });
     });
+
+    // Clear input when test finishes
+    effect(() => {
+      if (this.engine.isFinished()) {
+        untracked(() => {
+          if (this.hiddenInput) this.hiddenInput.nativeElement.value = '';
+          this.blurred = false;
+        });
+      }
+    });
   }
 
   async ngOnInit(): Promise<void> {

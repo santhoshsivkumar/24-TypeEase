@@ -328,7 +328,7 @@ export class TypingEngineService {
     const elapsed = s.timeLimit - this._timeRemaining();
     const result = this.stats.calculate(s, elapsed, this._wpmSnapshots);
     this._result.set(result);
-    this._state.update((prev) => ({ ...prev, status: 'finished' }));
+    this._state.update((prev) => ({ ...prev, status: 'finished', inputBuffer: '' }));
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
