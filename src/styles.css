@@ -40,8 +40,9 @@
   --error: #dc3545;
 
   /* Nav */
-  --nav-active-bg: #f5a623;
-  --nav-active-text: #1a1a2e;
+  --nav-active-bg: #2c2c2c;
+  --nav-active-text: #ffffff;
+  --nav-active-border: #f5a623;
   --nav-hover-bg: #2c2c2c;
 
   /* Word display box */
@@ -85,8 +86,9 @@
   --extra: #842029;
   --error: #dc3545;
 
-  --nav-active-bg: #f5a623;
-  --nav-active-text: #1a1a2e;
+  --nav-active-bg: #eaeaea;
+  --nav-active-text: #000000;
+  --nav-active-border: #f5a623;
   --nav-hover-bg: #e2e6ea;
 
   --words-box-bg: #ffffff;

@@ -21,8 +21,10 @@
 }
 
 .nav-item.active {
-  background: var(--primary);
-  color: var(--primary-text);
+  background: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  border-left: 3px solid var(--nav-active-border);
+  padding-left: calc(0.875rem - 3px);
 }
 
 .nav-item.disabled {

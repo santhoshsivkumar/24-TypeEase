@@ -13,7 +13,8 @@ export class StatsService {
   ): TestResult {
     const elapsedMinutes = timeElapsed / 60;
 
-    const grossWpm =
+    // Standard WPM: correct characters / 5 / minutes (industry standard, same as MonkeyType)
+    const wpm =
       elapsedMinutes > 0
         ? Math.round(state.correctKeystrokes / 5 / elapsedMinutes)
         : 0;
@@ -22,10 +23,11 @@ export class StatsService {
       .slice(0, state.currentWordIndex)
       .filter((w: WordState) => w.status === 'incorrect').length;
 
+    // Net WPM: additionally subtracts incorrect words per minute as a penalty
     const netWpm = Math.max(
       0,
       elapsedMinutes > 0
-        ? Math.round(grossWpm - incorrectWords / elapsedMinutes)
+        ? Math.round(wpm - incorrectWords / elapsedMinutes)
         : 0,
     );
 
@@ -39,7 +41,7 @@ export class StatsService {
       .filter((w: WordState) => w.status === 'correct').length;
 
     return {
-      wpm: grossWpm,
+      wpm,
       netWpm,
       accuracy,
       errors: incorrectWords,

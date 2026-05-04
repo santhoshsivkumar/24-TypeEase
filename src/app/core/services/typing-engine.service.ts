@@ -284,6 +284,7 @@ export class TypingEngineService {
     this.timerInterval = setInterval(() => {
       const t = this._timeRemaining();
       if (t <= 1) {
+        this._timeRemaining.set(0);
         this.finishTest();
         return;
       }
